@@ -5,7 +5,7 @@ const Aday = require('../models/Aday');
 
 const SECRET = 'monster_super_secret';
 
-// 🔐 Middleware
+//  Middleware
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) return res.status(401).json({ mesaj: 'Token eksik' });
@@ -20,7 +20,7 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
-// ✅ Tüm aday başvurularını getir
+//  Tüm aday başvurularını getir
 router.get('/tum-basvurular', authMiddleware, async (req, res) => {
     try {
         const adaylar = await Aday.find();

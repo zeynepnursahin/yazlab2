@@ -21,8 +21,8 @@ const AdaySchema = new mongoose.Schema({
             ilanId: String,
             durum: { type: String, default: 'Beklemede' },
             belgeler: [String],
-            juriPuani: { type: Number }, // 🆕 Jüri notu (ortalama gibi kullanılabilir)
-            juriDegerlendirmeleri: [     // 🆕 Her jüri üyesinin detaylı raporu
+            juriPuani: { type: Number },
+            juriDegerlendirmeleri: [
                 {
                     juriUsername: String,
                     puan: Number,

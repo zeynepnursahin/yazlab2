@@ -5,13 +5,13 @@ const multer = require('multer');
 const Aday = require('../models/Aday');
 const SECRET = 'monster_super_secret';
 
-// 🔧 Multer: Rapor yükleme için
+//  Multer: Rapor yükleme için
 const upload = multer({
     dest: 'uploads/raporlar/',
     limits: { fileSize: 10 * 1024 * 1024 },
 });
 
-// ✅ Jüri değerlendirmesi gönderme (rapor, puan, karar)
+//  Jüri değerlendirmesi gönderme (rapor, puan, karar)
 router.post('/degerlendir', upload.single('rapor'), async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ mesaj: 'Token eksik' });

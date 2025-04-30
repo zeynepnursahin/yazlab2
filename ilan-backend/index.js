@@ -12,10 +12,10 @@ const SECRET = 'monster_super_secret';
 app.use(cors());
 app.use(express.json());
 
-// 📁 Belgeler klasörünü public hale getir
+//  Belgeler klasörünü public hale getir
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// 📁 Routes
+//  Routes
 const adayRoutes = require('./routes/adayRoutes');
 const juriRoutes = require('./routes/juriRoutes');
 const yoneticiRoutes = require('./routes/yoneticiRoutes');
@@ -24,12 +24,12 @@ app.use('/api/aday', adayRoutes);
 app.use('/api/juri', juriRoutes);
 app.use('/api/yonetici', yoneticiRoutes);
 
-// 🔌 MongoDB bağlantısı
+//  MongoDB bağlantısı
 mongoose.connect('mongodb://localhost:27017/ilan-db')
     .then(() => console.log('✅ MongoDB bağlantısı başarılı'))
     .catch((err) => console.error('❌ MongoDB bağlantı hatası:', err));
 
-// 🛡️ Yetki kontrol middleware
+//  Yetki kontrol middleware
 function authMiddleware(req, res, next) {
     const authHeader = req.headers.authorization;
     if (!authHeader) return res.status(401).json({ mesaj: 'Token eksik' });
@@ -44,7 +44,7 @@ function authMiddleware(req, res, next) {
     }
 }
 
-// 📋 İlanları listele
+//  İlanları listele
 app.get('/api/ilanlar', async (req, res) => {
     try {
         const ilanlar = await Ilan.find().sort({ createdAt: -1 });
@@ -54,7 +54,7 @@ app.get('/api/ilanlar', async (req, res) => {
     }
 });
 
-// ➕ Yeni ilan ekle
+//  Yeni ilan ekle
 app.post('/api/ilanlar', authMiddleware, async (req, res) => {
     const { baslik, aciklama, kategori, gerekliBelgeler, baslangicTarihi, bitisTarihi } = req.body;
 
@@ -79,7 +79,7 @@ app.post('/api/ilanlar', authMiddleware, async (req, res) => {
     }
 });
 
-// ❌ İlan sil
+//  İlan sil
 app.delete('/api/ilanlar/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
     try {
@@ -90,7 +90,7 @@ app.delete('/api/ilanlar/:id', authMiddleware, async (req, res) => {
     }
 });
 
-// 🔐 Admin login
+//  Admin login
 const adminUser = { username: 'admin', password: '1234' };
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
@@ -104,7 +104,7 @@ app.post('/api/login', (req, res) => {
     res.status(401).json({ mesaj: 'Geçersiz giriş bilgisi' });
 });
 
-// 🔐 Jüri login
+//  Jüri login
 const juriUsers = [
     { username: 'juri1', password: 'abcd', adSoyad: 'Jüri Üyesi 1' },
     { username: 'juri2', password: 'abcd', adSoyad: 'Jüri Üyesi 2' },
@@ -123,7 +123,7 @@ app.post('/api/juri/login', (req, res) => {
     res.status(401).json({ mesaj: 'Geçersiz jüri giriş bilgisi' });
 });
 
-// 🔐 Yönetici login
+//  Yönetici login
 const yoneticiUser = { username: 'yonetici', password: '1234' };
 app.post('/api/yonetici/login', (req, res) => {
     const { username, password } = req.body;
@@ -137,7 +137,7 @@ app.post('/api/yonetici/login', (req, res) => {
     res.status(401).json({ mesaj: 'Geçersiz yönetici bilgisi' });
 });
 
-// 🚀 Sunucuyu başlat
+//  Sunucuyu başlat
 app.listen(PORT, () => {
     console.log(`🚀 Sunucu ${PORT} portunda çalışıyor`);
 });

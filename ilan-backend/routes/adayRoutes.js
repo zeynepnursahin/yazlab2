@@ -21,13 +21,13 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
-// 📥 Dosya yükleme (multer)
+//  Dosya yükleme (multer)
 const upload = multer({
     dest: 'uploads/',
     limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
 });
 
-// ✅ Aday Kayıt
+//  Aday Kayıt
 router.post('/register', async (req, res) => {
     const { tc, sifre, adSoyad } = req.body;
     if (!tc || !sifre || !adSoyad) {
@@ -46,7 +46,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// 🔐 Aday Giriş
+// Aday Giriş
 router.post('/login', async (req, res) => {
     const { tc, sifre } = req.body;
     if (!tc || !sifre) return res.status(400).json({ mesaj: 'TC ve şifre gerekli' });
@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// 📨 Başvuru Yap
+//  Başvuru Yap
 router.post('/basvuru/:ilanId', authMiddleware, upload.array('belgeler'), async (req, res) => {
     const { ilanId } = req.params;
     try {
@@ -79,7 +79,7 @@ router.post('/basvuru/:ilanId', authMiddleware, upload.array('belgeler'), async 
     }
 });
 
-// 📁 routes/adayRoutes.js
+//  routes/adayRoutes.js
 router.get('/tum-basvurular', authMiddleware, async (req, res) => {
     try {
         const adaylar = await Aday.find({}, { sifre: 0 }); // şifreyi dışarıda bırak
@@ -90,7 +90,7 @@ router.get('/tum-basvurular', authMiddleware, async (req, res) => {
 });
 
 
-// 🔄 Başvuru Güncelle
+//  Başvuru Güncelle
 router.put('/basvuru-guncelle/:ilanId', authMiddleware, upload.array('belgeler'), async (req, res) => {
     const { ilanId } = req.params;
     try {
@@ -111,7 +111,7 @@ router.put('/basvuru-guncelle/:ilanId', authMiddleware, upload.array('belgeler')
     }
 });
 
-// ❌ Başvuru İptal
+//  Başvuru İptal
 router.delete('/basvuru-iptal/:ilanId', authMiddleware, async (req, res) => {
     const { ilanId } = req.params;
     try {
@@ -126,7 +126,7 @@ router.delete('/basvuru-iptal/:ilanId', authMiddleware, async (req, res) => {
     }
 });
 
-// 🔍 Başvurularımı Listele
+//  Başvurularımı Listele
 router.get('/basvurularim', authMiddleware, async (req, res) => {
     try {
         const aday = await Aday.findOne({ tc: req.user.tc });
@@ -138,7 +138,7 @@ router.get('/basvurularim', authMiddleware, async (req, res) => {
     }
 });
 
-// 📄 PDF Başvuru Özeti
+//  PDF Başvuru Özeti
 router.get('/pdf', authMiddleware, async (req, res) => {
     try {
         const aday = await Aday.findOne({ tc: req.user.tc });
